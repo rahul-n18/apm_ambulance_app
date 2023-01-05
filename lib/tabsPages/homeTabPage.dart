@@ -89,7 +89,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 26.0),
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     if (isDriverAvailable != true) {
                       makeDriverOnlineNow();
@@ -104,7 +104,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                       //Geofire.removeLocation();
                     }
                   },
-                  color: driverStatusColor,
+                 // color: driverStatusColor,
                   child: Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Row(

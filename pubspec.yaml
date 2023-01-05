@@ -31,12 +31,12 @@ dependencies:
     sdk: flutter
  
   cupertino_icons: ^1.0.2
-  firebase_core: ^1.22.0
-  firebase_auth: ^3.8.0
-  firebase_database: ^9.1.4
+  firebase_core: ^2.4.1
+  firebase_auth: ^4.2.4
+  firebase_database: ^10.0.9
   fluttertoast: ^8.0.9
   image_picker: ^0.8.5+3
-  firebase_storage: ^10.3.8
+  firebase_storage: ^11.0.10
   google_maps_flutter: ^2.2.0
   flutter_geofire: ^2.0.1
   geolocator: ^9.0.2

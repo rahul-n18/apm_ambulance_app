@@ -117,11 +117,14 @@ class RegistrationScreen extends StatelessWidget {
               const SizedBox(
                 height: 5.0,
               ),
-              RaisedButton(
-                  color: Colors.blueAccent,
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24.0),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,//change color of button
+                              foregroundColor: Colors.white,//change text color
+                              shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                 
                   ),
                   onPressed: () {
                     if (nameTextEditingController.text.length < 4) {
@@ -148,7 +151,7 @@ class RegistrationScreen extends StatelessWidget {
                           TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
                     )),
                   )),
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.pushNamedAndRemoveUntil(
                         context, LoginScreen.idScreen, (route) => false);

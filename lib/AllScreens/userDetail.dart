@@ -277,11 +277,14 @@ class _UserDetailState extends State<UserDetail> {
                         const SizedBox(
                           height: 10.0,
                         ),
-                        RaisedButton(
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,//change color of button
+                              foregroundColor: Colors.white,//change text color
+                              shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            
                             ),
                             onPressed: () {
                               if (_formkey.currentState!.validate()) {

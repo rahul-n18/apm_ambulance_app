@@ -71,31 +71,28 @@ class _IceScreenState extends State<IceScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.camera_alt),
-                                color: Colors.blueAccent,
-                                iconSize: 60.0,
-                                onPressed: () {
-                                  pickImage1();
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.people_alt),
-                                color: Colors.blueAccent,
-                                iconSize: 60.0,
-                                onPressed: () {},
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.perm_contact_calendar),
-                                color: Colors.blueAccent,
-                                iconSize: 60.0,
-                                onPressed: () {},
-                              ),
-                            ]),
-              
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                IconButton(
+                  icon: const Icon(Icons.camera_alt),
+                  color: Colors.blueAccent,
+                  iconSize: 60.0,
+                  onPressed: () {
+                    pickImage1();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.people_alt),
+                  color: Colors.blueAccent,
+                  iconSize: 60.0,
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.perm_contact_calendar),
+                  color: Colors.blueAccent,
+                  iconSize: 60.0,
+                  onPressed: () {},
+                ),
+              ]),
               const SizedBox(
                 height: 1.0,
               ),
@@ -226,11 +223,14 @@ class _IceScreenState extends State<IceScreen> {
                         const SizedBox(
                           height: 20.0,
                         ),
-                        RaisedButton(
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14.0),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blueAccent, //change color of button
+                              foregroundColor: Colors.white, //change text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14.0),
+                              ),
                             ),
                             onPressed: () {},
                             child: const SizedBox(
@@ -251,11 +251,14 @@ class _IceScreenState extends State<IceScreen> {
                           thickness: 2.0,
                           endIndent: 0,
                         ),
-                        RaisedButton(
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4.0),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blueAccent, //change color of button
+                              foregroundColor: Colors.white, //change text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14.0),
+                              ),
                             ),
                             onPressed: () {},
                             child: const SizedBox(

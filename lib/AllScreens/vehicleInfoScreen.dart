@@ -382,11 +382,14 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
                               ),
                             ]),
 
-                        RaisedButton(
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,//change color of button
+                              foregroundColor: Colors.white,//change text color
+                              shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(24.0),
+                            ),
+                            
                             ),
                             onPressed: () {
                               if (_formkey.currentState!.validate()) {
@@ -413,35 +416,31 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
     );
   }
 
-
-
   void saveDriverInfo(context) {
     String userId = currentfirebaseUser!.uid;
-  
-      Map driverDataMap = {
-        "vehicle reg": vehicleRegTextEditingController.text.trim(),
-        "ambulance reg": ambulanceRegTextEditingController.text.trim(),
-        "organisation": orgNameTextEditingController.text.trim(),
-        "dob": birthdayTextEditingController.text.trim(),
-        "phone no": phoneTextEditingController.text.trim(),
-        "alternate no": alterPhoneTextEditingController.text.trim(),
-        "permanent address": permaAddressTextEditingController.text.trim(),
-      };
 
-      driverRef.child(userId).child("driver details").set(driverDataMap);
+    Map driverDataMap = {
+      "vehicle reg": vehicleRegTextEditingController.text.trim(),
+      "ambulance reg": ambulanceRegTextEditingController.text.trim(),
+      "organisation": orgNameTextEditingController.text.trim(),
+      "dob": birthdayTextEditingController.text.trim(),
+      "phone no": phoneTextEditingController.text.trim(),
+      "alternate no": alterPhoneTextEditingController.text.trim(),
+      "permanent address": permaAddressTextEditingController.text.trim(),
+    };
 
-      //currentfirebaseUser = firebaseUser;
+    driverRef.child(userId).child("driver details").set(driverDataMap);
 
-      displayToastMessage("Account created successfully", context);
+    //currentfirebaseUser = firebaseUser;
 
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, VehicleInfoScreen.idScreen);
-    } 
+    displayToastMessage("Account created successfully", context);
+
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamed(context, VehicleInfoScreen.idScreen);
   }
-  
+}
 
-  //TOAST FUNCTION
-  void displayToastMessage(String message, BuildContext context) {
-    Fluttertoast.showToast(msg: message);
-  }
-
+//TOAST FUNCTION
+void displayToastMessage(String message, BuildContext context) {
+  Fluttertoast.showToast(msg: message);
+}

@@ -72,23 +72,21 @@ class _IceScreenState extends State<IcePage> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SizedBox(
-                      height: 100,
-                    ),
-                    Image(
-                      image: AssetImage("images/apm_logo.png"),
-                      height: 50,
-                      width: 70,
-                    ),
-                    Text("APM",
-                        style: TextStyle(
-                            fontSize: 45.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontWeight: FontWeight.w700)),
-                  ]),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
+                SizedBox(
+                  height: 100,
+                ),
+                Image(
+                  image: AssetImage("images/apm_logo.png"),
+                  height: 50,
+                  width: 70,
+                ),
+                Text("APM",
+                    style: TextStyle(
+                        fontSize: 45.0,
+                        color: Color.fromARGB(255, 0, 0, 0),
+                        fontWeight: FontWeight.w700)),
+              ]),
               const Divider(
                 color: Colors.blue,
                 thickness: 3.0,
@@ -200,11 +198,14 @@ class _IceScreenState extends State<IcePage> {
                         const SizedBox(
                           height: 80.0,
                         ),
-                        RaisedButton(
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,//change color of button
+                              foregroundColor: Colors.white,//change text color
+                              shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14.0),
+                            ),
+                            
                             ),
                             onPressed: () {},
                             child: const SizedBox(
@@ -227,11 +228,13 @@ class _IceScreenState extends State<IcePage> {
                         ),
 
                         // emergency button
-                        /* RaisedButton(
-                            color: Colors.blueAccent,
-                            textColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4.0),
+                        /* ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,//change color of button
+                              foregroundColor: Colors.white,//change text color
+                              shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14.0),
+                            ),
                             ),
                             onPressed: () {},
                             child: const SizedBox(
