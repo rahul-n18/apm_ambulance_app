@@ -32,7 +32,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   var geoLocator = Geolocator();
 
-  String driverStatusText = "Go Online Now";
+  String driverStatusText = "Go Online ";
 
   Color driverStatusColor = Colors.black;
 
