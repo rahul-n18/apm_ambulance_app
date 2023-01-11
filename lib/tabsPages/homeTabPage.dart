@@ -47,7 +47,6 @@ class _HomeTabPageState extends State<HomeTabPage> {
     LatLng latLatPosition = LatLng(position.latitude, position.longitude);
 
     CameraPosition cameraPosition =
-        // ignore: unnecessary_new
         new CameraPosition(target: latLatPosition, zoom: 15);
     newGoogleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
@@ -96,15 +95,18 @@ class _HomeTabPageState extends State<HomeTabPage> {
                       getLocationLiveUpdates();
 
                       setState(() {
-                        driverStatusColor = Colors.green;
+                        driverStatusColor = Color.fromARGB(255, 6, 7, 10);
                         driverStatusText = "Online Now";
                         isDriverAvailable = true;
+                        ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 3, 201, 56));
                       });
                     } else {
                       //Geofire.removeLocation();
                     }
                   },
-                 // color: driverStatusColor,
+                  style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(255, 3, 125, 201)),
                   child: Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Row(
@@ -145,19 +147,18 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
     Geofire.initialize("availabelDrivers");
 
-    Geofire.setLocation("ZVI5ry0JGQc0vPDp2mPbc7WPcGT2",
-        currentPosition.latitude, currentPosition.longitude);
+    Geofire.setLocation(currentfirebaseUser!.uid, currentPosition.latitude,
+        currentPosition.longitude);
     rideRequestRef.onValue.listen((event) {});
   }
 
   void getLocationLiveUpdates() {
-    // ignore: unused_local_variable
     StreamSubscription<Position> homeTabPageStreamSubscription;
-    homeTabPageStreamSubscription =
+      homeTabPageStreamSubscription =
         Geolocator.getPositionStream().listen((Position postion) {
       currentPosition = postion;
-      Geofire.setLocation("ZVI5ry0JGQc0vPDp2mPbc7WPcGT2",
-          currentPosition.latitude, currentPosition.longitude);
+      Geofire.setLocation(currentfirebaseUser!.uid, currentPosition.latitude,
+          currentPosition.longitude);
       LatLng latLng = LatLng(postion.latitude, postion.longitude);
       newGoogleMapController.animateCamera(CameraUpdate.newLatLng(latLng));
     });

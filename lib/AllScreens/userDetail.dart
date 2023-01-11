@@ -1,8 +1,10 @@
+import 'package:apm_ambulance_app/configMaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:apm_ambulance_app/AllScreens/loginScreen.dart';
 import 'package:apm_ambulance_app/AllScreens/mainscreen.dart';
+import 'package:intl/intl.dart';
 import 'package:apm_ambulance_app/main.dart';
 
 class UserDetail extends StatefulWidget {
@@ -128,17 +130,13 @@ class _UserDetailState extends State<UserDetail> {
                           ),
                           style: const TextStyle(fontSize: 14.0),
                         ),
-                        TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter birthdate";
-                            }
-                            return null;
-                          },
+
+                        TextField(
                           controller: birthdayTextEditingController,
-                          keyboardType: TextInputType.datetime,
+                          //editing controller of this TextField
                           decoration: const InputDecoration(
-                            labelText: "Birthday ( DD/MM/YYYY)",
+                            labelText: "Date of Birth",
+                            suffixIcon: Icon(Icons.calendar_today),
                             labelStyle: TextStyle(
                               fontSize: 14.0,
                             ),
@@ -148,7 +146,32 @@ class _UserDetailState extends State<UserDetail> {
                             ),
                           ),
                           style: const TextStyle(fontSize: 14.0),
+                          readOnly: true,
+                          //set it true, so that user will not able to edit text
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2100));
+
+                            if (pickedDate != null) {
+                              print(
+                                  pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              setState(() {
+                                birthdayTextEditingController.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {}
+                          },
                         ),
+
+                        
                         TextFormField(
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -278,17 +301,44 @@ class _UserDetailState extends State<UserDetail> {
                           height: 10.0,
                         ),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,//change color of button
-                              foregroundColor: Colors.white,//change text color
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blueAccent, //change color of button
+                              foregroundColor: Colors.white, //change text color
                               shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                            
+                                borderRadius: BorderRadius.circular(24.0),
+                              ),
                             ),
                             onPressed: () {
                               if (_formkey.currentState!.validate()) {
-                                print("sucessful");
+                                firebaseUser =
+                                    FirebaseAuth.instance.currentUser;
+                                driverRef.child(firebaseUser!.uid).child("User").update({
+                                  "Name":
+                                      nameTextEditingController.text.trim(),
+                                  "Blood grp":
+                                      bloodTextEditingController.text.trim(),
+                                  "Birthday":
+                                      birthdayTextEditingController.text.trim(),
+                                  "phone no":
+                                      phoneTextEditingController.text
+                                          .trim(),
+                                  "alt phone no":
+                                      alterPhoneTextEditingController.text
+                                          .trim(),        
+                                  "temp address":
+                                      tempAddressTextEditingController.text
+                                          .trim(),
+                                  "permanent address":
+                                      permaAddressTextEditingController.text
+                                          .trim(),
+                                  "occupation": occupationDropDown,
+                                  "mode of transport": modeofTransportDropDown,
+                                });
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    MainScreen.idScreen,
+                                    (route) => false);
                               }
                             },
                             child: const SizedBox(

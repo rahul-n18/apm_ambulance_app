@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:apm_ambulance_app/AllScreens/userDetail.dart';
 import 'package:apm_ambulance_app/configMaps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,7 +15,7 @@ import 'package:apm_ambulance_app/main.dart';
 import 'registrationScreen.dart';
 
 class VehicleInfoScreen extends StatefulWidget {
-  static const String idScreen = "Driver Details";
+  static const String idScreen = "Driver Detail";
 
   @override
   State<VehicleInfoScreen> createState() => _VehicleInfoScreenState();
@@ -383,18 +384,40 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
                             ]),
 
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,//change color of button
-                              foregroundColor: Colors.white,//change text color
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Colors.blueAccent, //change color of button
+                              foregroundColor: Colors.white, //change text color
                               shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                            
+                                borderRadius: BorderRadius.circular(24.0),
+                              ),
                             ),
                             onPressed: () {
                               if (_formkey.currentState!.validate()) {
+                                firebaseUser =
+                                    FirebaseAuth.instance.currentUser;
+                                driverRef.child(firebaseUser!.uid).update({
+                                  "vehicle reg": vehicleRegTextEditingController
+                                      .text
+                                      .trim(),
+                                  "ambulance reg":
+                                      ambulanceRegTextEditingController.text
+                                          .trim(),
+                                  "organisation":
+                                      orgNameTextEditingController.text.trim(),
+                                  "dob":
+                                      birthdayTextEditingController.text.trim(),
+                                  "phone no":
+                                      phoneTextEditingController.text.trim(),
+                                  "alternate no":
+                                      alterPhoneTextEditingController.text
+                                          .trim(),
+                                  "permanent address":
+                                      permaAddressTextEditingController.text
+                                          .trim(),
+                                });
                                 Navigator.pushNamedAndRemoveUntil(context,
-                                    MainScreen.idScreen, (route) => false);
+                                    UserDetail.idScreen, (route) => false);
                               }
                             },
                             child: const SizedBox(
@@ -416,31 +439,10 @@ class _VehicleInfoScreenState extends State<VehicleInfoScreen> {
     );
   }
 
-  void saveDriverInfo(context) {
-    String userId = currentfirebaseUser!.uid;
 
-    Map driverDataMap = {
-      "vehicle reg": vehicleRegTextEditingController.text.trim(),
-      "ambulance reg": ambulanceRegTextEditingController.text.trim(),
-      "organisation": orgNameTextEditingController.text.trim(),
-      "dob": birthdayTextEditingController.text.trim(),
-      "phone no": phoneTextEditingController.text.trim(),
-      "alternate no": alterPhoneTextEditingController.text.trim(),
-      "permanent address": permaAddressTextEditingController.text.trim(),
-    };
-
-    driverRef.child(userId).child("driver details").set(driverDataMap);
-
-    //currentfirebaseUser = firebaseUser;
-
-    displayToastMessage("Account created successfully", context);
-
-    // ignore: use_build_context_synchronously
-    Navigator.pushNamed(context, VehicleInfoScreen.idScreen);
-  }
-}
 
 //TOAST FUNCTION
-void displayToastMessage(String message, BuildContext context) {
-  Fluttertoast.showToast(msg: message);
+  void displayToastMessage(String message, BuildContext context) {
+    Fluttertoast.showToast(msg: message);
+  }
 }

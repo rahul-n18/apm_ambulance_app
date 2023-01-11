@@ -49,8 +49,8 @@ class _MainScreenState extends State<MainScreen>
         children: [
           HomeTabPage(),
           IcePage(),
-          ProfileTabPage(),
           RatingTabPage(),
+          ProfileTabPage()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

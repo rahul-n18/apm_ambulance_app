@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:apm_ambulance_app/AllScreens/loginScreen.dart';
 import 'package:apm_ambulance_app/AllScreens/mainscreen.dart';
+import 'package:apm_ambulance_app/AllWidgets/progressDialog.dart';
 import 'package:apm_ambulance_app/main.dart';
 
 class RegistrationScreen extends StatelessWidget {
@@ -166,8 +167,14 @@ class RegistrationScreen extends StatelessWidget {
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  RegistrationScreen({Key? key}) : super(key: key);
+
   void registerNewUser(BuildContext context) async {
-    final User? firebaseUser = (await _firebaseAuth
+    showDialog(context: context,barrierDismissible: false, builder:(BuildContext context)
+    {
+      return ProgressDialog(message: "Registering, Please wait...",);
+    });
+    final firebaseUser = (await _firebaseAuth
             .createUserWithEmailAndPassword(
                 email: emailTextEditingController.text,
                 password: passwordTextEditingController.text)
@@ -185,7 +192,7 @@ class RegistrationScreen extends StatelessWidget {
 
       driverRef.child(firebaseUser.uid).set(driverDataMap);
 
-      currentfirebaseUser = firebaseUser;
+      
 
       displayToastMessage("Account created successfully", context);
 
