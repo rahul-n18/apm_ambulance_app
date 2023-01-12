@@ -1,3 +1,4 @@
+import 'package:apm_ambulance_app/configMaps.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:apm_ambulance_app/AllScreens/mainscreen.dart';
@@ -80,12 +81,12 @@ class LoginScreen extends StatelessWidget {
                 height: 5.0,
               ),
               ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,//change color of button
-                              foregroundColor: Colors.white,//change text color
-                              shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14.0),
-                            ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent, //change color of button
+                    foregroundColor: Colors.white, //change text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.0),
+                    ),
                   ),
                   onPressed: () {
                     if (!emailTextEditingController.text.contains("@")) {
@@ -115,7 +116,6 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
-        
       ),
     );
   }
@@ -135,13 +135,44 @@ class LoginScreen extends StatelessWidget {
     //String userid = firebaseUser.getUid();
 
     if (firebaseUser != null) {
-      //var currentfirebaseUser = firebaseUser.uid;
-
-      displayToastMessage("Logged in Successfully", context);
-
-      Navigator.pushNamed(context, MainScreen.idScreen);
+      driverRef
+          .child(firebaseUser.uid)
+          .once()
+          .then((DatabaseEvent databaseEvent) {
+        if (databaseEvent.snapshot.value != null) {
+          currentfirebaseUser = firebaseUser;
+          Navigator.pushNamed(context, MainScreen.idScreen);
+          Fluttertoast.showToast(
+              msg: "You are Logged In successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Color.fromARGB(255, 63, 63, 63),
+              textColor: Colors.white,
+              fontSize: 16.0);
+        } else {
+          Navigator.pop(context);
+          _firebaseAuth.signOut();
+          Fluttertoast.showToast(
+              msg: "No Record exist for this user",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 1,
+              backgroundColor: const Color.fromARGB(255, 63, 63, 63),
+              textColor: Colors.white,
+              fontSize: 16.0);
+        }
+      });
     } else {
-      displayToastMessage("Error", context);
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: "Error Occured",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: const Color.fromARGB(255, 63, 63, 63),
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
   }
 

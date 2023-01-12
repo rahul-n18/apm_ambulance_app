@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:apm_ambulance_app/configMaps.dart';
 import 'package:apm_ambulance_app/main.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,8 +34,6 @@ class _HomeTabPageState extends State<HomeTabPage> {
   var geoLocator = Geolocator();
 
   String driverStatusText = "Go Online ";
-
-  Color driverStatusColor = Colors.black;
 
   bool isDriverAvailable = false;
 
@@ -95,18 +94,32 @@ class _HomeTabPageState extends State<HomeTabPage> {
                       getLocationLiveUpdates();
 
                       setState(() {
-                        driverStatusColor = Color.fromARGB(255, 6, 7, 10);
-                        driverStatusText = "Online Now";
-                        isDriverAvailable = true;
                         ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 3, 201, 56));
+                         backgroundColor: Color.fromARGB(255, 0, 223, 41));
+                        driverStatusText = "Online Now ";
+                        isDriverAvailable = true;
                       });
+                      Fluttertoast.showToast(
+                          msg: "You are Online Now",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Color.fromARGB(255, 48, 48, 48),
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     } else {
+                      setState(() {
+                        ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 39, 235, 0));
+                        driverStatusText = "Go Online";
+                        isDriverAvailable = false;
+                      });
+                      makeDriverOfflineNow();
                       //Geofire.removeLocation();
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromARGB(255, 3, 125, 201)),
+                   style: ElevatedButton.styleFrom(
+                   backgroundColor: Color.fromARGB(255, 0, 204, 41)),
                   child: Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Row(
@@ -154,13 +167,31 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   void getLocationLiveUpdates() {
     StreamSubscription<Position> homeTabPageStreamSubscription;
-      homeTabPageStreamSubscription =
+    homeTabPageStreamSubscription =
         Geolocator.getPositionStream().listen((Position postion) {
       currentPosition = postion;
-      Geofire.setLocation(currentfirebaseUser!.uid, currentPosition.latitude,
-          currentPosition.longitude);
+      if (isDriverAvailable == true) {
+        Geofire.setLocation(currentfirebaseUser!.uid, currentPosition.latitude,
+            currentPosition.longitude);
+      }
       LatLng latLng = LatLng(postion.latitude, postion.longitude);
       newGoogleMapController.animateCamera(CameraUpdate.newLatLng(latLng));
     });
   }
+}
+
+void makeDriverOfflineNow() {
+  Geofire.removeLocation(currentfirebaseUser!.uid);
+  rideRequestRef.onDisconnect();
+  rideRequestRef.remove();
+  // rideRequestRef = null;
+
+  Fluttertoast.showToast(
+      msg: "You are Offline Now",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Color.fromARGB(255, 63, 63, 63),
+      textColor: Colors.white,
+      fontSize: 16.0);
 }
