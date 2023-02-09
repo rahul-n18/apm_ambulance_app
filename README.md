@@ -4,4 +4,4 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Built this project for the ambulance side of the application
